@@ -16,8 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+
+from producto.api import CategoriaViewSet, ProductoViewSet
+from usuarios.api import UsuarioViewSet  # importa el viewset de usuarios
+from ventas.api import VentaViewSet      # importa el viewset de ventas
+
+router = routers.DefaultRouter()
+router.register('api/categories', CategoriaViewSet, 'categories')
+router.register('api/products', ProductoViewSet, 'products')
+router.register('api/users', UsuarioViewSet, 'users')
+router.register('api/sales', VentaViewSet, 'sales')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('producto.urls')) #string vacio para que no vaya nada
+    path('', include(router.urls)),
 ]
